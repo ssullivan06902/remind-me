@@ -1,0 +1,448 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  width: 350px;
+  min-height: 500px; /* Increased minimum height */
+  overflow-y: auto; /* Add scrolling if needed */
+  margin: 0;
+  padding-bottom: 60px; /* Space for fixed buttons */
+}
+
+/* Light mode colors */
+body.light-mode {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #dddddd;
+  --input-bg: #ffffff;
+  --header-bg: #f5f5f5;
+  --primary-color: #4285f4;
+  --primary-hover: #3367d6;
+  --secondary-color: #f1f3f4;
+  --success-color: #34a853;
+  --success-hover: #2d9146;
+  --warning-color: #fbbc05;
+  --warning-hover: #e0a800;
+  --danger-color: #ea4335;
+  --danger-hover: #d33426;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --notification-bg: #ffffff;
+}
+
+/* Dark mode colors */
+body.dark-mode {
+  --bg-color: #202124;
+  --text-color: #e8eaed;
+  --border-color: #5f6368;
+  --input-bg: #303134;
+  --header-bg: #292a2d;
+  --primary-color: #669df6;
+  --primary-hover: #8ab4f8;
+  --secondary-color: #3c4043;
+  --success-color: #57bb8a;
+  --success-hover: #6bcc9c;
+  --warning-color: #fdd663;
+  --warning-hover: #fee690;
+  --danger-color: #f28b82;
+  --danger-hover: #f6aea8;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --notification-bg: #303134;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.container {
+  padding: 15px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  background-color: var(--secondary-color);
+}
+
+body.light-mode .sun-icon {
+  display: none;
+}
+
+body.dark-mode .moon-icon {
+  display: none;
+}
+
+body.light-mode .moon-icon,
+body.dark-mode .sun-icon {
+  display: block;
+  fill: none;
+  stroke: var(--text-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.tab-btn.active {
+  border-bottom: 2px solid var(--primary-color);
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+textarea {
+  height: 60px;
+  resize: vertical;
+}
+
+/* Shiny pill-shaped button */
+button[type="submit"], 
+input[type="submit"],
+.submit-button {
+  /* Pill shape */
+  border-radius: 50px;
+  padding: 10px 24px;
+  
+  /* Gradient background for shiny effect */
+  background-image: linear-gradient(to bottom, #4d90fe, #357ae8);
+  
+  /* Text styling */
+  color: white;
+  font-weight: bold;
+  
+  /* Remove default button styling */
+  border: none;
+  outline: none;
+  
+  /* Add a subtle shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  
+  /* Smooth transitions */
+  transition: all 0.2s ease;
+  
+  /* Make it stand out */
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  
+  /* Prevent text selection */
+  user-select: none;
+}
+
+/* Hover effect */
+button[type="submit"]:hover, 
+input[type="submit"]:hover,
+.submit-button:hover {
+  background-image: linear-gradient(to bottom, #4d90fe, #4787ed);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+/* Active/pressed effect */
+button[type="submit"]:active, 
+input[type="submit"]:active,
+.submit-button:active {
+  background-image: linear-gradient(to bottom, #3579e0, #4d90fe);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: translateY(1px);
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+.reminder-item {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.reminder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.reminder-title {
+  font-weight: bold;
+}
+
+.reminder-date {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.reminder-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  gap: 5px;
+}
+
+.action-btn {
+  width: auto;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.edit-btn {
+  background-color: var(--warning-color);
+  color: #000000;
+}
+
+.edit-btn:hover {
+  background-color: var(--warning-hover);
+}
+
+.delete-btn {
+  background-color: var(--danger-color);
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+.complete-btn {
+  background-color: var(--success-color);
+}
+
+.complete-btn:hover {
+  background-color: var(--success-hover);
+}
+
+.priority-low {
+  border-left: 4px solid var(--success-color);
+}
+
+.priority-medium {
+  border-left: 4px solid var(--warning-color);
+}
+
+.priority-high {
+  border-left: 4px solid var(--danger-color);
+}
+
+.completed {
+  opacity: 0.6;
+}
+
+.completed .reminder-title {
+  text-decoration: line-through;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filter-container label {
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Date and time container */
+.date-time-container {
+  display: flex;
+  gap: 10px; /* Space between date and time inputs */
+  margin-bottom: 15px;
+}
+
+.date-time-container input[type="date"],
+.date-time-container input[type="time"] {
+  flex: 1; /* Each takes equal width */
+  min-width: 0; /* Prevents overflow issues */
+}
+
+/* Firefox specific fixes for date/time inputs */
+@-moz-document url-prefix() {
+  input[type="date"],
+  input[type="time"] {
+    padding: 7px;  /* Slight padding adjustment for Firefox */
+  }
+}
+
+/* If you need labels above each input */
+.date-input-group,
+.time-input-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.date-input-group label,
+.time-input-group label {
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+
+/* Green variant */
+.green-button {
+  background-image: linear-gradient(to bottom, #4CAF50, #388E3C);
+}
+.green-button:hover {
+  background-image: linear-gradient(to bottom, #4CAF50, #43A047);
+}
+.green-button:active {
+  background-image: linear-gradient(to bottom, #388E3C, #4CAF50);
+}
+
+/* Custom notification styles with bottom centered button */
+.success-notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--notification-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  z-index: 9999;
+  padding: 25px 20px;
+  text-align: center;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.notification-content p {
+  margin-bottom: 15px;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.notification-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.success-notification button {
+  padding: 8px 30px;
+  background-image: linear-gradient(to bottom, #4d90fe, #357ae8);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  width: auto;
+  display: inline-block;
+}
+
+.success-notification button:hover {
+  background-image: linear-gradient(to bottom, #4d90fe, #4787ed);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Error message */
+.error-message {
+  color: var(--danger-color);
+  text-align: center;
+  padding: 15px;
+  border: 1px solid var(--danger-color);
+  border-radius: 4px;
+  margin: 10px 0;
+}
