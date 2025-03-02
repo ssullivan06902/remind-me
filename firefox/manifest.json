@@ -23,7 +23,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "reminder-manager@yourdomain.com",
-      "strict_min_version": "57.0"
+      "strict_min_version": "79.0"
     }
   }
 }

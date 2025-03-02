@@ -108,20 +108,34 @@ function showSuccessMessage() {
   // Create custom success notification
   const notification = document.createElement('div');
   notification.className = 'success-notification';
-  notification.innerHTML = `
-    <div class="notification-content">
-      <p>Reminder saved successfully!</p>
-      <div class="notification-button-container">
-        <button id="success-ok-btn">OK</button>
-      </div>
-    </div>
-  `;
+  
+  // Create content container
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'notification-content';
+  
+  // Create and add message
+  const message = document.createElement('p');
+  message.textContent = 'Reminder saved successfully!';
+  contentDiv.appendChild(message);
+  
+  // Create button container
+  const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'notification-button-container';
+  
+  // Create OK button
+  const okButton = document.createElement('button');
+  okButton.id = 'success-ok-btn';
+  okButton.textContent = 'OK';
+  buttonContainer.appendChild(okButton);
+  
+  // Assemble the notification
+  contentDiv.appendChild(buttonContainer);
+  notification.appendChild(contentDiv);
   
   // Add to body
   document.body.appendChild(notification);
   
   // Add event listener to close
-  const okButton = notification.querySelector('#success-ok-btn');
   okButton.addEventListener('click', function() {
     document.body.removeChild(notification);
   });
@@ -226,11 +240,17 @@ function loadReminders() {
     
     // Display reminders
     if (filteredReminders.length === 0) {
-      remindersList.innerHTML = '<p class="empty-message">No reminders found.</p>';
+      // Safely set empty message
+      remindersList.textContent = '';
+      const emptyMessage = document.createElement('p');
+      emptyMessage.className = 'empty-message';
+      emptyMessage.textContent = 'No reminders found.';
+      remindersList.appendChild(emptyMessage);
       return;
     }
     
-    remindersList.innerHTML = '';
+    // Clear the list safely
+    remindersList.textContent = '';
     
     filteredReminders.forEach(reminder => {
       const reminderElement = createReminderElement(reminder);
@@ -238,7 +258,13 @@ function loadReminders() {
     });
   }).catch(error => {
     console.error("Error loading reminders:", error);
-    remindersList.innerHTML = '<p class="error-message">Error loading reminders. Please refresh.</p>';
+    
+    // Safely set error message
+    remindersList.textContent = '';
+    const errorMessage = document.createElement('p');
+    errorMessage.className = 'error-message';
+    errorMessage.textContent = 'Error loading reminders. Please refresh.';
+    remindersList.appendChild(errorMessage);
   });
 }
 
@@ -263,46 +289,83 @@ function createReminderElement(reminder) {
     minute: '2-digit' 
   });
   
-  reminderDiv.innerHTML = `
-    <div class="reminder-header">
-      <div class="reminder-title">${reminder.title}</div>
-      <div class="reminder-date">${formattedDate}, ${formattedTime}</div>
-    </div>
-    <div class="reminder-description">${reminder.description || ''}</div>
-    <div class="reminder-repeat">${reminder.repeat !== 'none' ? `Repeats: ${reminder.repeat}` : ''}</div>
-    <div class="reminder-actions">
-      ${!reminder.completed ? `<button class="action-btn complete-btn" data-id="${reminder.id}">Complete</button>` : ''}
-      <button class="action-btn edit-btn" data-id="${reminder.id}">Edit</button>
-      <button class="action-btn delete-btn" data-id="${reminder.id}">Delete</button>
-    </div>
-  `;
+  // Create header
+  const headerDiv = document.createElement('div');
+  headerDiv.className = 'reminder-header';
   
-  // Add event listeners
-  setTimeout(() => {
-    const editBtn = reminderDiv.querySelector('.edit-btn');
-    const deleteBtn = reminderDiv.querySelector('.delete-btn');
-    const completeBtn = reminderDiv.querySelector('.complete-btn');
+  // Title
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'reminder-title';
+  titleDiv.textContent = reminder.title;
+  headerDiv.appendChild(titleDiv);
+  
+  // Date
+  const dateDiv = document.createElement('div');
+  dateDiv.className = 'reminder-date';
+  dateDiv.textContent = `${formattedDate}, ${formattedTime}`;
+  headerDiv.appendChild(dateDiv);
+  
+  // Description
+  const descriptionDiv = document.createElement('div');
+  descriptionDiv.className = 'reminder-description';
+  descriptionDiv.textContent = reminder.description || '';
+  
+  // Repeat info
+  const repeatDiv = document.createElement('div');
+  repeatDiv.className = 'reminder-repeat';
+  if (reminder.repeat !== 'none') {
+    repeatDiv.textContent = `Repeats: ${reminder.repeat}`;
+  }
+  
+  // Actions
+  const actionsDiv = document.createElement('div');
+  actionsDiv.className = 'reminder-actions';
+  
+  // Add complete button if not completed
+  if (!reminder.completed) {
+    const completeBtn = document.createElement('button');
+    completeBtn.className = 'action-btn complete-btn';
+    completeBtn.dataset.id = reminder.id;
+    completeBtn.textContent = 'Complete';
     
-    if (editBtn) {
-      editBtn.addEventListener('click', () => {
-        editReminder(reminder.id);
-      });
-    }
+    completeBtn.addEventListener('click', () => {
+      completeReminder(reminder.id);
+    });
     
-    if (deleteBtn) {
-      deleteBtn.addEventListener('click', () => {
-        if (confirm('Are you sure you want to delete this reminder?')) {
-          deleteReminder(reminder.id);
-        }
-      });
+    actionsDiv.appendChild(completeBtn);
+  }
+  
+  // Edit button
+  const editBtn = document.createElement('button');
+  editBtn.className = 'action-btn edit-btn';
+  editBtn.dataset.id = reminder.id;
+  editBtn.textContent = 'Edit';
+  
+  editBtn.addEventListener('click', () => {
+    editReminder(reminder.id);
+  });
+  
+  actionsDiv.appendChild(editBtn);
+  
+  // Delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'action-btn delete-btn';
+  deleteBtn.dataset.id = reminder.id;
+  deleteBtn.textContent = 'Delete';
+  
+  deleteBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete this reminder?')) {
+      deleteReminder(reminder.id);
     }
-    
-    if (completeBtn) {
-      completeBtn.addEventListener('click', () => {
-        completeReminder(reminder.id);
-      });
-    }
-  }, 0);
+  });
+  
+  actionsDiv.appendChild(deleteBtn);
+  
+  // Assemble the reminder element
+  reminderDiv.appendChild(headerDiv);
+  reminderDiv.appendChild(descriptionDiv);
+  reminderDiv.appendChild(repeatDiv);
+  reminderDiv.appendChild(actionsDiv);
   
   return reminderDiv;
 }
