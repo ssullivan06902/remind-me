@@ -24,7 +24,7 @@ This extension works with:
 ```
 reminder-extension/
 ├── src/                           # Shared source code
-│   ├── icons/                     # Icons for both versions
+│   ├── icons/                     # Icons for all versions
 │   ├── popup.css                  # Shared CSS
 │   └── popup.html                 # Shared popup HTML (without browser-specific parts)
 ├── chrome/                        # Chrome-specific files
@@ -32,6 +32,7 @@ reminder-extension/
 │   ├── background.js              # Chrome background script
 │   ├── background-worker.js       # Chrome service worker wrapper
 │   └── popup.js                   # Chrome popup script
+│   └── browser-polyfill.js        # Chrome's browser API polyfill
 ├── edge/                          # Edge-specific files
 │   ├── background.js              # Edge background script
 │   └── browser-polyfill.js        # Edge's browser API polyfill
@@ -105,7 +106,7 @@ reminder-extension/
 ### Shared Code
 
 The `src/` directory contains shared code used by both Chrome and Firefox versions:
-- `icons/`     - Extension icons
+- `icons/`     - Extension icons <- [Reminder Skin Type 3 icons!](https://icons8.com/icon/PUU6euyt3ma8/reminder-skin-type-3) icons by [icons8](https://icons8.com) ->
 - `popup.css`  - Styles for the popup UI
 - `popup.html` - Base HTML structure for the popup
 
